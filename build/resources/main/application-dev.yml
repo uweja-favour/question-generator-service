@@ -1,0 +1,105 @@
+# =========================================================
+# DEVELOPMENT-ONLY CONFIGURATION
+# Overrides application.yml when profile = dev
+# =========================================================
+
+# -------------------------------------------------------
+# FILE STORAGE
+# -------------------------------------------------------
+file_manager:
+  storage_dir: C:/dev/backend/storage/self_test_quiz_service_storage
+
+# -------------------------------------------------------
+# SPRING CONFIGURATION (DEV OVERRIDES)
+# -------------------------------------------------------
+spring:
+
+  # Enable virtual threads (Java 21 feature)
+  threads:
+    virtual:
+      enabled: true
+
+  # -----------------------------------------------------
+  # DATABASE CONFIG
+  # -----------------------------------------------------
+  data:
+    mongodb:
+      uri: mongodb+srv://dbUser:Password123Password@cluster0.fiw5cvi.mongodb.net/question_generation_service_db?retryWrites=true&w=majority&appName=Cluster0
+
+
+  transaction:
+    default-timeout: 30s
+
+  # -----------------------------------------------------
+  # LOGGING (SQL DEBUGGING ENABLED)
+  # -----------------------------------------------------
+  logging:
+    level:
+      org.hibernate.SQL: debug
+      org.hibernate.orm.jdbc.bind: trace
+
+  # -----------------------------------------------------
+  # WEBFLUX + MEMORY SETTINGS
+  # -----------------------------------------------------
+  codec:
+    max-in-memory-size: 500MB
+
+  webflux:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      read-date-timestamps-as-nanoseconds: true
+    time-zone: UTC
+
+  # -----------------------------------------------------
+  # SECURITY (RESOURCE SERVER CONFIG)
+  # -----------------------------------------------------
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          accessSecret: asdfsdfarwegrsKLSAHAKBIUUIBuseweDOIy8b_)@#r43243234sadfew23fsxcasdfq32refwasegsade234ew
+          refreshSecret: asdijfpeiwrAW3OSI9823JKKSokls0(U2w30(*IUNskajfwke2939sdf9aww9edsafds3wrwaeasdfa34sewe
+          jwk-set-uri: http://localhost:8080/.well-known/jwks.json
+
+# -------------------------------------------------------
+# RESILIENCE4J CONFIG (AI TIMEOUT)
+# -------------------------------------------------------
+resilience4j:
+  timelimiter:
+    instances:
+      aiOrchestrator:
+        timeout-duration: 1800s
+        cancel-running-future: false
+
+# -------------------------------------------------------
+# SERVER CONFIG
+# -------------------------------------------------------
+server:
+  port: 8083
+
+# -------------------------------------------------------
+# STORAGE (S3)
+# -------------------------------------------------------
+s3:
+  bucket-name: your-bucket-her
+
+# -------------------------------------------------------
+# LLM SERVICES
+# -------------------------------------------------------
+llama:
+  server:
+    url: http://127.0.0.1:8085
+
+openai:
+  api:
+    key: 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
+
+anthropic:
+  api:
+    key: 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

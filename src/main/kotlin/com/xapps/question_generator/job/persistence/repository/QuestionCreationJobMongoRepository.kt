@@ -1,0 +1,8 @@
+package com.xapps.question_generator.job.persistence.repository
+
+import com.xapps.question_generator.job.persistence.entity.QuestionCreationJobDocument
+import org.springframework.data.repository.kotlin.CoroutineCrudRepository
+import org.springframework.stereotype.Repository
+
+@Repository
+interface QuestionCreationJobMongoRepository : CoroutineCrudRepository<QuestionCreationJobDocument, String>
