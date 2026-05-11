@@ -49,18 +49,19 @@ class ClaudeHttpClient(
             }
 
             install(Logging) {
-                level = LogLevel.INFO
+                logger = Logger.DEFAULT
+                level = LogLevel.ALL
             }
 
-            defaultRequest {
-                url("https://api.anthropic.com/v1/messages")
-
-                header("x-api-key", apiKey.trim())
-                header("anthropic-version", "2023-06-01")
-
-                contentType(ContentType.Application.Json)
-                accept(ContentType.Application.Json)
-            }
+//            defaultRequest {
+//                url("https://api.anthropic.com/v1/messages")
+//
+//                header("x-api-key", apiKey.trim())
+//                header("anthropic-version", "2023-06-01")
+//
+//                contentType(ContentType.Application.Json)
+//                accept(ContentType.Application.Json)
+//            }
         }
     }
 
@@ -81,9 +82,22 @@ class ClaudeHttpClient(
         )
 
         try {
-            val response: HttpResponse = httpClient.post {
+
+            val response: HttpResponse = httpClient.post(
+                "https://api.anthropic.com/v1/messages"
+            ) {
+                header("x-api-key", apiKey.trim())
+                header("anthropic-version", "2023-06-01")
+
+                contentType(ContentType.Application.Json)
+                accept(ContentType.Application.Json)
+
                 setBody(apiRequest)
             }
+
+//            val response: HttpResponse = httpClient.post {
+//                setBody(apiRequest)
+//            }
 
             val body = response.bodyAsText()
 
