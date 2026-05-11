@@ -28,6 +28,7 @@ class ClaudeHttpClient(
         log.info("Anthropic key present: {}", apiKey.isNotBlank())
         log.info("Anthropic key length: {}", apiKey.length)
         log.info("Anthropic key prefix: {}", apiKey)
+        log.info("Anthropic key bytes: {}", apiKey.toByteArray().take(20).map { it.toInt() })
     }
 
     @OptIn(ExperimentalSerializationApi::class)
