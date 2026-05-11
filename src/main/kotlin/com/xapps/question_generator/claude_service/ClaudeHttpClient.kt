@@ -24,6 +24,12 @@ class ClaudeHttpClient(
 
     private val log = LoggerFactory.getLogger(javaClass)
 
+    init {
+        log.info("Anthropic key present: {}", apiKey.isNotBlank())
+        log.info("Anthropic key length: {}", apiKey.length)
+        log.info("Anthropic key prefix: {}", apiKey)
+    }
+
     @OptIn(ExperimentalSerializationApi::class)
     private val httpClient: HttpClient by lazy {
         HttpClient {
