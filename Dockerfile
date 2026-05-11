@@ -7,8 +7,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN ./gradlew :question-generator-service:bootJar --no-daemon
-
+RUN chmod +x gradlew && ./gradlew bootJar --no-daemon
 
 # ─────────────────────────────────────────────
 # 2. RUNTIME STAGE
@@ -17,10 +16,9 @@ FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-COPY --from=build /app/question-generator-service/build/libs/*.jar app.jar
+COPY --from=build /app/build/libs/*.jar app.jar
 
-# Railway will override this via PORT, but we still declare a fallback
-EXPOSE 8080
+EXPOSE 8083
 
-# FORCE dev profile (equivalent to your bootRun --args)
+# FORCE dev profile (equivalent to bootRun --args)
 ENTRYPOINT ["sh", "-c", "java -jar app.jar --server.port=$PORT --spring.profiles.active=dev"]
