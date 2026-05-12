@@ -13,8 +13,6 @@ data class QuestionCreationJobDocument(
 
     val questionGenerationSpec: QuestionGenerationSpecDocument,
 
-    val quizId: String? = null,
-
     val jobStatusTypeCode: JobStatusTypeCode,
 
     val progress: Int? = null,

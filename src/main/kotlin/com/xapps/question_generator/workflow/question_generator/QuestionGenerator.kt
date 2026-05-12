@@ -24,18 +24,18 @@ class QuestionGeneratorImpl(
     override suspend fun generate(
         spec: QuestionGenerationSpec,
         files: List<ExtractableFile>
-    ): List<QuestionDTO> = coroutineScope {
+    ): List<QuestionDTO> {
+
         val job = jobService.findById(spec.jobId)
             ?: throwJobNotFoundException(spec.jobId)
 
         reporter.update(job, Progress.QUESTIONS_GENERATION_STARTED)
 
         val rawContent = contentPreparer.prepare(files)
-        ensureActive()
 
 //        val optimizedContent = optimizer.optimize(job, rawContent)
 //        ensureActive()
 
-        allocationGenerator.generate(job, rawContent, spec.allocations)
+        return allocationGenerator.generate(job, rawContent, spec.allocations)
     }
 }

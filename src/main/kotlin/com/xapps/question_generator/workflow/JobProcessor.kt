@@ -29,15 +29,14 @@ class JobProcessor(
 
     suspend fun run(jobId: JobId) {
 
-        val job = jobService.findById(jobId)
-            ?.takeIf { it.shouldRun() }
-            ?: run {
-                log.error("Missing job with id: ${jobId.value}")
-                return
-            }
-
         try {
             retryExecutor.execute {
+
+                val job = jobService.findById(jobId)
+                    ?: run {
+                        log.error("Missing job with id: ${jobId.value}")
+                        return@execute
+                    }
 
                 val updatedJob = job.incrementAttempt()
                 jobService.save(updatedJob)
@@ -53,13 +52,15 @@ class JobProcessor(
 
                 publishQuestions(questions, spec)
 
-                reporter.complete(updatedJob, spec.quizId)
+                reporter.complete(updatedJob)
             }
 
         } catch (ex: Exception) {
             log.error("Job failed after retries: ${jobId.value}", ex)
 
-            reporter.fail(job, ex, canRetry = false)
+            jobService.findById(jobId)?.let {
+                reporter.fail(it, ex, canRetry = false)
+            }
         }
     }
 

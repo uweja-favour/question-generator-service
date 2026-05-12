@@ -5,7 +5,6 @@ package com.xapps.question_generator.job.persistence.mapper
 import com.xapps.question_generator.job.domain.model.QuestionCreationJob
 import com.xapps.question_generator.job.persistence.entity.JobStatusType
 import com.xapps.question_generator.job.persistence.entity.QuestionCreationJobDocument
-import com.xapps.question_generator.job.persistence.entity.question_creation_job.factory.QuestionCreationJobDocumentFactory
 import com.xapps.dto.job.JobStatus
 import com.xapps.dto.job.JobTask
 import com.xapps.questions.contracts.question_generation.JobId
@@ -27,7 +26,7 @@ fun QuestionCreationJobDocument.toDomain(): QuestionCreationJob {
 
         JobStatusType.RUNNING ->
             JobStatus.Running(
-                percentage = requireNotNull(progress)
+                progress = requireNotNull(progress)
             )
 
         JobStatusType.COMPLETED ->
@@ -58,13 +57,17 @@ fun QuestionCreationJobDocument.toDomain(): QuestionCreationJob {
 }
 
 fun QuestionCreationJob.toEntity(): QuestionCreationJobDocument {
-    return QuestionCreationJobDocumentFactory.create(
+    return QuestionCreationJobDocument(
         jobId = id.value,
         questionGenerationSpec = questionGenerationSpec.toEntity(),
-        jobStatus = status,
-        attemptCount = attemptCount,
-        jobTaskCode = task.code,
-        createdAt = createdAt,
-        updatedAt = updatedAt
+        quizId = ,
+        jobStatusTypeCode = TODO(),
+        progress = TODO(),
+        failureReason = TODO(),
+        canRetry = TODO(),
+        attemptCount = TODO(),
+        jobTaskCode = TODO(),
+        createdAt = TODO(),
+        updatedAt = TODO()
     )
 }

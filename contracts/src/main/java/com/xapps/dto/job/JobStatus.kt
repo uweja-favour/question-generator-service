@@ -1,6 +1,5 @@
 package com.xapps.dto.job
 
-import com.xapps.model.QuizId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -16,14 +15,12 @@ sealed class JobStatus {
     @Serializable
     @SerialName("Running")
     data class Running(
-        val percentage: Int
+        val progress: Int
     ) : JobStatus()
 
     @Serializable
     @SerialName("Completed")
-    data class Completed(
-        val quizId: QuizId
-    ) : JobStatus()
+    data object Completed : JobStatus()
 
     @Serializable
     @SerialName("Failed")

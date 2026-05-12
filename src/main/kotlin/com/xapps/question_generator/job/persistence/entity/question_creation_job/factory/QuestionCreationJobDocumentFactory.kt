@@ -40,8 +40,8 @@ object QuestionCreationJobDocumentFactory {
                 )
 
             is JobStatus.Running -> {
-                require(jobStatus.percentage in 1..100) {
-                    "JobStatus percentage must be in the range of 1..100. It was ${jobStatus.percentage}%"
+                require(jobStatus.progress in 1..100) {
+                    "JobStatus percentage must be in the range of 1..100. It was ${jobStatus.progress}%"
                 }
 
                 QuestionCreationJobDocument(
@@ -49,7 +49,7 @@ object QuestionCreationJobDocumentFactory {
                     questionGenerationSpec = questionGenerationSpec,
                     jobStatusTypeCode = JobStatusType.RUNNING.code,
                     quizId = null,
-                    progress = jobStatus.percentage,
+                    progress = jobStatus.progress,
                     failureReason = null,
                     canRetry = null,
                     attemptCount = attemptCount,

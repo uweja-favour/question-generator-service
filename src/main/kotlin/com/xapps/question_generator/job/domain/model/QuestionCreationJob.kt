@@ -22,11 +22,11 @@ data class QuestionCreationJob(
 ) {
     fun markRunning(progress: Int) = copy(
         status = JobStatus.Running(progress),
-        updatedAt = nowInKotlinInstant(),
+        updatedAt = nowInKotlinInstant()
     )
 
-    fun markCompleted(quizId: QuizId) = copy(
-        status = JobStatus.Completed(quizId),
+    fun markCompleted() = copy(
+        status = JobStatus.Completed,
         updatedAt = nowInKotlinInstant()
     )
 
@@ -43,18 +43,10 @@ data class QuestionCreationJob(
         updatedAt = nowInKotlinInstant()
     )
 
-    fun shouldRun(): Boolean =
-        status is JobStatus.Queued ||
-        status is JobStatus.Failed && status.canRetry
-
-
     fun incrementAttempt() = copy(
         attemptCount = attemptCount + 1,
         updatedAt = nowInKotlinInstant()
     )
-
-    fun toReadableFormat(): String = "JobID=$id | status=$status | " +
-            "updatedAt=$updatedAt | attempts=$attemptCount"
 
     companion object {
         fun new(
@@ -62,12 +54,14 @@ data class QuestionCreationJob(
             task: JobTask,
             spec: QuestionGenerationSpec
         ): QuestionCreationJob {
+            val now = nowInKotlinInstant()
+
             return QuestionCreationJob(
                 id = jobId,
                 status = JobStatus.Queued,
                 task = task,
-                createdAt = nowInKotlinInstant(),
-                updatedAt = nowInKotlinInstant(),
+                createdAt = now,
+                updatedAt = now,
                 attemptCount = 0,
                 questionGenerationSpec = spec
             )

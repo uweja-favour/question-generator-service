@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component
 interface ProgressReporter {
     suspend fun update(job: QuestionCreationJob, progress: Int)
     suspend fun fail(job: QuestionCreationJob, exception: Throwable, canRetry: Boolean)
-    suspend fun complete(job: QuestionCreationJob, quizId: QuizId)
+    suspend fun complete(job: QuestionCreationJob)
     suspend fun requeue(job: QuestionCreationJob)
 }
 
@@ -21,7 +21,7 @@ class JobProgressReporter(
     private val jobUpdatePublisher: JobUpdatePublisher
 ) : ProgressReporter {
 
-    private val logger = LoggerFactory.getLogger(javaClass)
+    private val log = LoggerFactory.getLogger(javaClass)
 
     override suspend fun update(job: QuestionCreationJob, progress: Int) =
         report(job) { markRunning(progress) }
@@ -32,8 +32,8 @@ class JobProgressReporter(
         canRetry: Boolean
     ) = report(job) { markFailed(exception.message.toString(), canRetry) }
 
-    override suspend fun complete(job: QuestionCreationJob, quizId: QuizId) =
-        report(job) { markCompleted(quizId) }
+    override suspend fun complete(job: QuestionCreationJob) =
+        report(job) { markCompleted() }
 
     override suspend fun requeue(job: QuestionCreationJob) =
         report(job) { markQueued() }
@@ -43,12 +43,12 @@ class JobProgressReporter(
         transition: QuestionCreationJob.() -> QuestionCreationJob
     ) {
         outcomeOf {
-            val updatedJob = transition(job)
+            val updatedJob = job.transition()
 
             jobService.save(updatedJob)
             jobUpdatePublisher.publish(updatedJob.id)
         }.onFailure { error ->
-            logger.error(
+            log.error(
                 "Failed to report job state change for job ID: ${job.id}: ${error.message}",
                 error.exception
             )

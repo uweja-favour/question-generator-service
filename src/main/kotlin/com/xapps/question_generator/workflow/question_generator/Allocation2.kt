@@ -6,6 +6,7 @@ import com.xapps.platform.core.outcome.ensureActive
 import com.xapps.platform.core.outcome.getOrElse
 import com.xapps.platform.core.outcome.outcomeOf
 import com.xapps.question_generator.claude_service.ClaudeClient
+import com.xapps.question_generator.gpt_service.GptClient
 import com.xapps.question_generator.job.domain.model.QuestionCreationJob
 import com.xapps.question_generator.new_prompt_builder.PromptBuilder
 import com.xapps.question_generator.workflow.questions_json_parser.QuestionsJsonParser
@@ -31,7 +32,7 @@ interface AllocationQuestionGenerator {
 
 @Component
 class AllocationQuestionGeneratorImpl(
-    private val aiClient: ClaudeClient,
+    private val aiClient: GptClient,
     private val promptBuilder: PromptBuilder,
     private val repairPromptBuilder: RepairPromptBuilder,
     private val questionsJsonParser: QuestionsJsonParser,

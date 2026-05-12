@@ -13,9 +13,9 @@ class RetryExecutor(
     retryRegistry: RetryRegistry
 ) {
 
-    private val retry = retryRegistry.retry("question-generation")
+    final val retry = retryRegistry.retry("question-generation")
 
-    suspend fun <T> execute(block: suspend () -> T): T {
+    final suspend inline fun <T> execute(crossinline block: suspend () -> T): T {
         return retry.executeSuspendFunction {
             block()
         }

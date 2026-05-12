@@ -13,8 +13,7 @@ class ClaudeService(
     private val log = LoggerFactory.getLogger(javaClass)
 
     override suspend fun generateStringResponse(prompt: String): String {
-        val model = modelSelector.selectModel(prompt)
-        log.info("Selected model: $model")
+        val model = selectModel(prompt)
 
         val request = ClaudeRequest(
             prompt = prompt,
@@ -27,8 +26,7 @@ class ClaudeService(
     }
 
     override suspend fun generateJsonResponse(prompt: String): JsonObject {
-        val model = modelSelector.selectModel(prompt)
-        log.info("Selected model: $model")
+        val model = selectModel(prompt)
 
         val request = ClaudeRequest(
             prompt = prompt,
@@ -38,5 +36,11 @@ class ClaudeService(
 
         val raw = executor.execute(request)
         return ClaudeResponseParser.extractJsonContent(raw)
+    }
+
+    private final fun selectModel(prompt: String): ClaudeModel {
+        val model = modelSelector.selectModel(prompt)
+        log.info("Selected model: $model")
+        return model
     }
 }

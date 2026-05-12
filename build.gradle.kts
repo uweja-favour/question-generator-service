@@ -29,11 +29,9 @@ repositories {
 
 dependencies {
 
-
     /* =========================================================
      * INTERNAL MODULES
      * ========================================================= */
-//    implementation(project(":common:file_manager"))
     implementation(project(":contracts"))
     implementation(project(":platform"))
 
@@ -60,7 +58,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-amqp")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("org.springframework.boot:spring-boot-starter-data-redis")
 
     /* =========================================================
      * KOTLIN / REACTIVE SUPPORT
@@ -78,8 +75,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.7.3")
-
-//    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     /* =========================================================
      * AUTH / JWT
@@ -140,16 +135,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:$okHttpVersion")
     implementation("com.squareup.okhttp3:logging-interceptor:$okHttpVersion")
 
-    /* =========================================================
-     * REDIS CLIENT
-     * ========================================================= */
-    implementation("io.lettuce:lettuce-core:6.5.4.RELEASE")
-
-
     implementation("com.benasher44:uuid-jvm:0.8.4")
-//    implementation("org.springframework.amqp:spring-amqp:4.0.1")
-//    implementation("org.springframework.amqp:spring-rabbit:4.0.1")
-//    implementation("com.fasterxml.jackson.core:jackson-databind")
 
     // Apache Kafka
     implementation("org.springframework.kafka:spring-kafka")
