@@ -13,6 +13,7 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.buildJsonObject
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
@@ -54,51 +55,52 @@ class ClaudeHttpClient(
                 level = LogLevel.ALL
             }
 
-//            defaultRequest {
-//                url("https://api.anthropic.com/v1/messages")
-//
-//                header("x-api-key", apiKey.trim())
-//                header("anthropic-version", "2023-06-01")
-//
-//                contentType(ContentType.Application.Json)
-//                accept(ContentType.Application.Json)
-//            }
-        }
-    }
+            defaultRequest {
+                url("https://api.anthropic.com/v1/messages")
 
-    suspend fun send(request: ClaudeRequest): String {
-        val apiRequest = ClaudeApiRequest(
-            model = request.model.modelName,
-            max_tokens = request.model.maxOutputTokens,
-            messages = listOf(
-                ClaudeMessage(
-                    role = "user",
-                    content = buildPrompt(request)
-                )
-            ),
-            temperature = if (request.model.supportsTemperature)
-                request.temperature
-            else
-                null
-        )
-
-        try {
-
-            val response: HttpResponse = httpClient.post(
-                "https://api.anthropic.com/v1/messages"
-            ) {
                 header("x-api-key", apiKey.trim())
                 header("anthropic-version", "2023-06-01")
 
                 contentType(ContentType.Application.Json)
                 accept(ContentType.Application.Json)
-
-                setBody(apiRequest)
             }
+        }
+    }
 
-//            val response: HttpResponse = httpClient.post {
-//                setBody(apiRequest)
-//            }
+    suspend fun send(request: ClaudeRequest): String {
+//        val apiRequest = ClaudeApiRequest(
+//            model = request.model.modelName,
+//            max_tokens = request.model.maxOutputTokens,
+//            messages = listOf(
+//                ClaudeMessage(
+//                    role = "user",
+//                    content = buildPrompt(request)
+//                )
+//            ),
+//            temperature = if (request.model.supportsTemperature)
+//                request.temperature
+//            else
+//                null
+//        )
+
+        val apiRequest = buildMap {
+            put("model", request.model.name)
+            put("max_tokens", request.model.maxOutputTokens)
+            put("messages", listOf(
+                ClaudeMessage(
+                    role = "user",
+                    content = buildPrompt(request)
+                )
+            ))
+            if (request.model.supportsTemperature) {
+                put("temperature", request.temperature)
+            }
+        }
+
+        try {
+            val response: HttpResponse = httpClient.post {
+                setBody(request)
+            }
 
             val body = response.bodyAsText()
 

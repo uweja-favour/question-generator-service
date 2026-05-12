@@ -9,7 +9,6 @@ plugins {
     id("org.springframework.boot") version "3.5.9"
     id("io.spring.dependency-management") version "1.1.7"
 
-
     // --- Database / Migration ---
     id("org.flywaydb.flyway") version "9.22.0"
 }
