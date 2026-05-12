@@ -1,5 +1,6 @@
 package com.xapps.question_generator.job.persistence.entity
 
+import com.xapps.dto.job.JobStatus
 import com.xapps.dto.job.JobTaskCode
 import com.xapps.question_generator.BasePersistableEntity
 import com.xapps.time.types.KotlinInstant
@@ -13,25 +14,18 @@ data class QuestionCreationJobDocument(
 
     val questionGenerationSpec: QuestionGenerationSpecDocument,
 
-    val jobStatusTypeCode: JobStatusTypeCode,
-
-    val progress: Int? = null,
-
-    val failureReason: String? = null,
-
-    val canRetry: Boolean?,
+    val status: JobStatus,
 
     val attemptCount: Int,
 
-    val jobTaskCode: JobTaskCode,
+    val taskCode: JobTaskCode,
 
     val createdAt: KotlinInstant,
 
     val updatedAt: KotlinInstant
 ) : BasePersistableEntity() {
 
-    override fun getTheId(): String =
-        jobId
+    override fun getTheId(): String = jobId
 }
 
 

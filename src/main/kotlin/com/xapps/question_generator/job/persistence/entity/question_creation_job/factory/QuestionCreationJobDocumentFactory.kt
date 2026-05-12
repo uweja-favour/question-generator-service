@@ -29,7 +29,7 @@ object QuestionCreationJobDocumentFactory {
                     jobId = jobId,
                     questionGenerationSpec = questionGenerationSpec,
                     jobStatusTypeCode = JobStatusType.QUEUED.code,
-                    jobTaskCode = jobTaskCode,
+                    taskCode = jobTaskCode,
                     quizId = null,
                     progress = null,
                     failureReason = null,
@@ -53,7 +53,7 @@ object QuestionCreationJobDocumentFactory {
                     failureReason = null,
                     canRetry = null,
                     attemptCount = attemptCount,
-                    jobTaskCode = jobTaskCode,
+                    taskCode = jobTaskCode,
                     createdAt = createdAt,
                     updatedAt = updatedAt
                 )
@@ -69,7 +69,7 @@ object QuestionCreationJobDocumentFactory {
                     failureReason = null,
                     canRetry = null,
                     attemptCount = attemptCount,
-                    jobTaskCode = jobTaskCode,
+                    taskCode = jobTaskCode,
                     createdAt = createdAt,
                     updatedAt = updatedAt
                 )
@@ -84,7 +84,7 @@ object QuestionCreationJobDocumentFactory {
                     failureReason = jobStatus.reason,
                     canRetry = jobStatus.canRetry,
                     attemptCount = attemptCount,
-                    jobTaskCode = jobTaskCode,
+                    taskCode = jobTaskCode,
                     createdAt = createdAt,
                     updatedAt = updatedAt
                 )
@@ -99,7 +99,7 @@ object QuestionCreationJobDocumentFactory {
                     failureReason = null,
                     canRetry = null,
                     attemptCount = attemptCount,
-                    jobTaskCode = jobTaskCode,
+                    taskCode = jobTaskCode,
                     createdAt = createdAt,
                     updatedAt = updatedAt
                 )
