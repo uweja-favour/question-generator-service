@@ -46,7 +46,7 @@ class JobProgressReporter(
             val updatedJob = job.transition()
 
             jobService.save(updatedJob)
-            jobUpdatePublisher.publish(updatedJob.id)
+//            jobUpdatePublisher.publish(updatedJob.id)
         }.onFailure { error ->
             log.error(
                 "Failed to report job state change for job ID: ${job.id}: ${error.message}",
