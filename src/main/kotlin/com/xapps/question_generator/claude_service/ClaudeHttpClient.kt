@@ -25,13 +25,6 @@ class ClaudeHttpClient(
 
     private val log = LoggerFactory.getLogger(javaClass)
 
-    init {
-        log.info("Anthropic key present: {}", apiKey.isNotBlank())
-        log.info("Anthropic key length: {}", apiKey.length)
-        log.info("Anthropic key prefix: {}", apiKey)
-        log.info("Anthropic key bytes: {}", apiKey.toByteArray().take(20).map { it.toInt() })
-    }
-
     @OptIn(ExperimentalSerializationApi::class)
     private val httpClient: HttpClient by lazy {
         HttpClient {
@@ -51,8 +44,7 @@ class ClaudeHttpClient(
             }
 
             install(Logging) {
-                logger = Logger.DEFAULT
-                level = LogLevel.ALL
+                level = LogLevel.INFO
             }
 
             defaultRequest {
@@ -68,38 +60,24 @@ class ClaudeHttpClient(
     }
 
     suspend fun send(request: ClaudeRequest): String {
-//        val apiRequest = ClaudeApiRequest(
-//            model = request.model.modelName,
-//            max_tokens = request.model.maxOutputTokens,
-//            messages = listOf(
-//                ClaudeMessage(
-//                    role = "user",
-//                    content = buildPrompt(request)
-//                )
-//            ),
-//            temperature = if (request.model.supportsTemperature)
-//                request.temperature
-//            else
-//                null
-//        )
-
-        val apiRequest = buildMap {
-            put("model", request.model.name)
-            put("max_tokens", request.model.maxOutputTokens)
-            put("messages", listOf(
+        val apiRequest = ClaudeApiRequest(
+            model = request.model.modelName,
+            max_tokens = request.model.maxOutputTokens,
+            messages = listOf(
                 ClaudeMessage(
                     role = "user",
                     content = buildPrompt(request)
                 )
-            ))
-            if (request.model.supportsTemperature) {
-                put("temperature", request.temperature)
-            }
-        }
+            ),
+            temperature = if (request.model.supportsTemperature)
+                request.temperature
+            else
+                null
+        )
 
         try {
             val response: HttpResponse = httpClient.post {
-                setBody(request)
+                setBody(apiRequest)
             }
 
             val body = response.bodyAsText()

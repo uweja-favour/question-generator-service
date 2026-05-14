@@ -26,34 +26,36 @@ enum class ClaudeModel(
         supportsTemperature = false
     ),
 
-    CLAUDE_SONNET_4_6(
-        "claude-sonnet-4-6",
-        Tier.SONNET,
-        contextWindow = 1_000_000,
-        maxOutputTokens = 64_000,
-        supportsTemperature = false
-    ),
-
     CLAUDE_OPUS_4_5(
         "claude-opus-4-5",
         Tier.OPUS,
         contextWindow = 1_000_000,
         maxOutputTokens = 128_000
-    ),
-
-    CLAUDE_SONNET_4_5(
-        "claude-sonnet-4-5",
-        Tier.SONNET,
-        contextWindow = 1_000_000,
-        maxOutputTokens = 64_000
-    ),
-
-    CLAUDE_HAIKU_4_5(
-        "claude-haiku-4-5",
-        Tier.HAIKU,
-        contextWindow = 200_000,
-        maxOutputTokens = 8_000
     );
+
+    // DO NOT ENABLE THESE MODELS BELOW. THEY ARE NOT GOOD ENOUGH TO GENERATE 500 QUESTIONS.
+//
+//    CLAUDE_SONNET_4_6(
+//        "claude-sonnet-4-6",
+//        Tier.SONNET,
+//        contextWindow = 1_000_000,
+//        maxOutputTokens = 64_000,
+//        supportsTemperature = false
+//    ),
+
+//    CLAUDE_SONNET_4_5(
+//        "claude-sonnet-4-5",
+//        Tier.SONNET,
+//        contextWindow = 1_000_000,
+//        maxOutputTokens = 64_000
+//    ),
+//
+//    CLAUDE_HAIKU_4_5(
+//        "claude-haiku-4-5",
+//        Tier.HAIKU,
+//        contextWindow = 200_000,
+//        maxOutputTokens = 8_000
+//    );
 
     enum class Tier {
         OPUS,
