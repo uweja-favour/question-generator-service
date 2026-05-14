@@ -32,7 +32,7 @@ interface AllocationQuestionGenerator {
 
 @Component
 class AllocationQuestionGeneratorImpl(
-    private val aiClient: GptClient,
+    private val aiClient: ClaudeClient,
     private val promptBuilder: PromptBuilder,
     private val repairPromptBuilder: RepairPromptBuilder,
     private val questionsJsonParser: QuestionsJsonParser,
