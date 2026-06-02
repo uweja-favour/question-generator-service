@@ -4,13 +4,11 @@ import com.xapps.messaging.kafka.KafkaTopics
 import org.apache.kafka.clients.admin.AdminClient
 import org.apache.kafka.clients.admin.AdminClientConfig
 import org.apache.kafka.clients.admin.NewTopic
-import org.apache.kafka.common.errors.TopicExistsException
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
 import org.springframework.stereotype.Component
-import java.time.Duration
 import java.util.concurrent.TimeUnit
 
 @Component
@@ -33,7 +31,7 @@ class KafkaTopicProvisioner(
         KafkaTopics.Quiz.CLASSROOM_PAYLOAD,
         KafkaTopics.Quiz.CLASSROOM_STATE_CHANGED,
 
-        KafkaTopics.NoteSummary.NOTE_SUMMARY_PAYLOAD,
+        KafkaTopics.NoteSummary.PAYLOAD,
 
         KafkaTopics.User.ONLINE,
         KafkaTopics.User.OFFLINE

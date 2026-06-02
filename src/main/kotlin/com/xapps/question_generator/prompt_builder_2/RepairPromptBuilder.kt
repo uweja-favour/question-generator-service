@@ -1,9 +1,9 @@
 package com.xapps.question_generator.prompt_builder_2
 
-import com.xapps.question_generator.new_prompt_builder.SchemaBuilder
-import com.xapps.question_generator.workflow.QuestionSchemaHolder
-import com.xapps.question_generator.workflow.questions_json_parser.QuestionsJsonParser.FailedQuestion
-import com.xapps.questions.contracts.question_generation.QuestionAllocation
+import com.xapps.question_generator.question_generation_workflow.new_prompt_builder.SchemaBuilder
+import com.xapps.question_generator.question_generation_workflow.QuestionSchemaHolder
+import com.xapps.question_generator.question_generation_workflow.questions_json_parser.QuestionsJsonParser.FailedQuestion
+import com.xapps.question_generation.QuestionAllocation
 import kotlinx.serialization.json.JsonObject
 import org.springframework.stereotype.Component
 

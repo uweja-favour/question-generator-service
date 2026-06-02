@@ -1,9 +1,9 @@
 package com.xapps.question_generator.prompt_builder_2
 
 import com.xapps.model.QuestionType
-import com.xapps.question_generator.new_prompt_builder.ComputedConstraints
-import com.xapps.question_generator.new_prompt_builder.ConstraintComputer
-import com.xapps.questions.contracts.question_generation.QuestionAllocation
+import com.xapps.question_generator.question_generation_workflow.new_prompt_builder.ComputedConstraints
+import com.xapps.question_generator.question_generation_workflow.new_prompt_builder.ConstraintComputer
+import com.xapps.question_generation.QuestionAllocation
 import org.springframework.stereotype.Component
 
 @Component

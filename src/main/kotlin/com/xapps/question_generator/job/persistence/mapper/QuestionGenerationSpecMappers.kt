@@ -2,8 +2,8 @@ package com.xapps.question_generator.job.persistence.mapper
 
 import com.xapps.model.QuizType
 import com.xapps.question_generator.job.persistence.entity.QuestionGenerationSpecDocument
-import com.xapps.questions.contracts.question_generation.JobId
-import com.xapps.questions.contracts.self_test_generation.model.QuestionGenerationSpec
+import com.xapps.question_generation.JobId
+import com.xapps.question_generation.QuestionGenerationSpec
 
 fun QuestionGenerationSpec.toEntity(): QuestionGenerationSpecDocument {
     return QuestionGenerationSpecDocument(

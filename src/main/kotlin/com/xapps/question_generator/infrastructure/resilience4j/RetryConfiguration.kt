@@ -1,11 +1,10 @@
 package com.xapps.question_generator.infrastructure.resilience4j
 
-import com.xapps.question_generator.workflow.pipeline.TransientFailureClassifier
+import com.xapps.question_generator.question_generation_workflow.pipeline.TransientFailureClassifier
 import io.github.resilience4j.retry.RetryConfig
 import io.github.resilience4j.retry.RetryRegistry
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import java.time.Duration
 
 @Configuration
 class RetryConfiguration(

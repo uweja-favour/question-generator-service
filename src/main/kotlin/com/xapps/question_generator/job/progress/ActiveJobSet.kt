@@ -1,7 +1,7 @@
 package com.xapps.question_generator.job.progress
 
 import com.xapps.dto.job.isFinal
-import com.xapps.questions.contracts.question_generation.JobId
+import com.xapps.question_generation.JobId
 import kotlin.collections.toMutableSet
 
 internal class ActiveJobSet(

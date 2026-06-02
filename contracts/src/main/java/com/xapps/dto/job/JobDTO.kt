@@ -1,6 +1,6 @@
 package com.xapps.dto.job
 
-import com.xapps.questions.contracts.question_generation.JobId
+import com.xapps.question_generation.JobId
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -15,7 +15,8 @@ value class JobTaskCode(val value: String)
 
 enum class JobTask(val code: JobTaskCode, val displayName: String) {
     SELF_TEST(JobTaskCode("self_test"), "Self Test Task"),
-    CLASSROOM(JobTaskCode("classroom"), "Classroom Task");
+    CLASSROOM(JobTaskCode("classroom"), "Classroom Task"),
+    NOTE_SUMMARY(JobTaskCode("note_summary"), "Note Summary Task");
 
     companion object {
         private val BY_CODE = entries.associateBy { it.code }

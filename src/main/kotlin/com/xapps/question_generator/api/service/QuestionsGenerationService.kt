@@ -2,17 +2,23 @@ package com.xapps.question_generator.api.service
 
 import com.xapps.platform.core.retryWithExponentialBackoff
 import com.xapps.platform.core.string.generateUniqueId
-import com.xapps.question_generator.job.service.QuestionCreationJobService
 import com.xapps.dto.job.JobDTO
 import com.xapps.dto.job.JobTask
 import com.xapps.model.QuizType
-import com.xapps.questions.contracts.question_generation.JobId
+import com.xapps.question_generation.JobId
 import com.xapps.dto.QuestionAllocationDTO
+import com.xapps.model.NoteSummaryStyle
 import com.xapps.model.QuizId
+import com.xapps.note_summary.createNoteSummaryGenerationSpec
+import com.xapps.question_generation.createQuestionGenerationSpec
 import com.xapps.question_generator.infrastructure.object_store.ObjectKey
 import com.xapps.question_generator.job.domain.model.QuestionCreationJob
-import com.xapps.question_generator.workflow.JobProcessor
-import com.xapps.questions.contracts.self_test_generation.dto.createSelfTestQuestionGenerationSpec
+import com.xapps.question_generator.question_generation_workflow.QuestionProcessor
+import com.xapps.question_generator.job.domain.model.NoteSummaryCreationJob
+import com.xapps.question_generator.job.domain.repository.NoteSummaryCreationJobRepository
+import com.xapps.question_generator.job.domain.repository.QuestionCreationJobRepository
+import com.xapps.question_generator.job.service.CreationJobService
+import com.xapps.question_generator.note_summary_workflow.NoteSummaryCreationService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -22,8 +28,11 @@ import org.springframework.stereotype.Service
 
 @Service
 class QuestionsGenerationService(
-    private val jobService: QuestionCreationJobService,
-    private val jobProcessor: JobProcessor
+    private val questionCreationJobRepository: QuestionCreationJobRepository,
+    private val noteSummaryCreationJobRepository: NoteSummaryCreationJobRepository,
+    private val jobService: CreationJobService,
+    private val questionProcessor: QuestionProcessor,
+    private val noteSummaryCreation: NoteSummaryCreationService
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
@@ -38,7 +47,7 @@ class QuestionsGenerationService(
         allocations: List<QuestionAllocationDTO>,
         quizType: QuizType
     ) {
-        val spec = createSelfTestQuestionGenerationSpec(
+        val spec = createQuestionGenerationSpec(
             userId = userId,
             quizId = quizId,
             questionCount = questionCount,
@@ -55,10 +64,32 @@ class QuestionsGenerationService(
         }
 
         val job = QuestionCreationJob.new(jobId, task, spec)
-        jobService.save(job)
+        questionCreationJobRepository.save(job)
 
         log.info("Starting questions generation now.")
-        scope.launch { jobProcessor.run(jobId) }
+        scope.launch { questionProcessor.run(jobId) }
+    }
+
+    suspend fun generateNoteSummary(
+        noteSummaryId: String,
+        userId: String,
+        jobId: JobId,
+        fileKey: String,
+        style: NoteSummaryStyle
+    ) {
+
+        val spec = createNoteSummaryGenerationSpec(
+            noteSummaryId = noteSummaryId,
+            userId = userId,
+            fileKey = fileKey,
+            style = style
+        )
+
+        val job = NoteSummaryCreationJob.new(jobId, spec)
+        noteSummaryCreationJobRepository.save(job)
+
+        log.info("Starting note summary generation now.")
+        scope.launch { noteSummaryCreation.run(jobId) }
     }
 
     suspend fun fetchJob(jobId: JobId): JobDTO {
@@ -66,3 +97,4 @@ class QuestionsGenerationService(
         return JobDTO(job.id, job.task, job.status)
     }
 }
+

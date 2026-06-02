@@ -8,8 +8,8 @@ import com.xapps.model.question.McQuestion
 import com.xapps.model.question.MsQuestion
 import com.xapps.model.question.Question
 import com.xapps.model.question.TfQuestion
-import com.xapps.questions.contracts.self_test_generation.dto.OptionDTO
-import com.xapps.questions.contracts.self_test_generation.dto.QuestionDTO
+import com.xapps.question_generation.dto.OptionDTO
+import com.xapps.question_generation.dto.QuestionDTO
 
 fun QuestionDTO.toQuestion(
     quizId: QuizId,

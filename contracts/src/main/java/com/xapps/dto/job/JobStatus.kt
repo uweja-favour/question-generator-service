@@ -32,6 +32,15 @@ sealed class JobStatus {
     @Serializable
     @SerialName("Cancelled")
     data object Cancelled : JobStatus()
+
+    @Serializable
+    enum class Phase {
+        FETCHING_FILES,
+        EXTRACTING_TEXT,
+        GENERATING,
+        PUBLISHING,
+        FINALIZING
+    }
 }
 
 fun JobStatus.isFinal(): Boolean =

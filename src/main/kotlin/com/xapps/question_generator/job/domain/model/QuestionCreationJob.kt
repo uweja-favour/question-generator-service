@@ -6,31 +6,31 @@ import com.xapps.platform.core.time.nowInKotlinInstant
 import com.xapps.time.types.KotlinInstant
 import com.xapps.dto.job.JobStatus
 import com.xapps.dto.job.JobTask
-import com.xapps.model.QuizId
-import com.xapps.questions.contracts.question_generation.JobId
-import com.xapps.questions.contracts.self_test_generation.model.QuestionGenerationSpec
+import com.xapps.question_generation.JobId
+import com.xapps.question_generation.QuestionGenerationSpec
 import kotlin.time.ExperimentalTime
 
 data class QuestionCreationJob(
-    val id: JobId,
-    val status: JobStatus,
-    val task: JobTask,
-    val createdAt: KotlinInstant,
-    val updatedAt: KotlinInstant,
-    val attemptCount: Int,
+    override val id: JobId,
+    override val status: JobStatus,
+    override val task: JobTask,
+    override val createdAt: KotlinInstant,
+    override val updatedAt: KotlinInstant,
+    override val attemptCount: Int,
     val questionGenerationSpec: QuestionGenerationSpec
-) {
-    fun markRunning(progress: Int) = copy(
+) : CreationJob() {
+
+    override fun markRunning(progress: Int) = copy(
         status = JobStatus.Running(progress),
         updatedAt = nowInKotlinInstant()
     )
 
-    fun markCompleted() = copy(
+    override fun markCompleted() = copy(
         status = JobStatus.Completed,
         updatedAt = nowInKotlinInstant()
     )
 
-    fun markFailed(reason: String, canRetry: Boolean) = copy(
+    override fun markFailed(reason: String, canRetry: Boolean) = copy(
         status = JobStatus.Failed(
             reason = reason,
             canRetry = canRetry
@@ -38,12 +38,12 @@ data class QuestionCreationJob(
         updatedAt = nowInKotlinInstant()
     )
 
-    fun markQueued() = copy(
+    override fun markQueued() = copy(
         status = JobStatus.Queued,
         updatedAt = nowInKotlinInstant()
     )
 
-    fun incrementAttempt() = copy(
+    override fun incrementAttempt() = copy(
         attemptCount = attemptCount + 1,
         updatedAt = nowInKotlinInstant()
     )

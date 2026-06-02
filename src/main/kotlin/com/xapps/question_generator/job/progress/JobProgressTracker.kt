@@ -1,7 +1,7 @@
 package com.xapps.question_generator.job.progress
 
 import com.xapps.dto.job.isFinal
-import com.xapps.questions.contracts.question_generation.JobId
+import com.xapps.question_generation.JobId
 import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow

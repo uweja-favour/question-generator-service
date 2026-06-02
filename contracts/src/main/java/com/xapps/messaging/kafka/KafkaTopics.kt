@@ -15,7 +15,9 @@ object KafkaTopics {
     }
 
     object NoteSummary {
-        const val NOTE_SUMMARY_PAYLOAD = "new.note.summary.payload"
+        const val REQUESTED = "note.summary.requested"
+        const val GENERATED = "note.summary.generated"
+        const val PAYLOAD = "new.note.summary.payload"
     }
 
     object User {

@@ -2,7 +2,7 @@ package com.xapps.question_generator.job.persistence.mapper
 
 import com.xapps.model.QuestionType
 import com.xapps.question_generator.job.persistence.entity.QuestionAllocationDocument
-import com.xapps.questions.contracts.question_generation.QuestionAllocation
+import com.xapps.question_generation.QuestionAllocation
 
 fun QuestionAllocation.toEntity(): QuestionAllocationDocument {
     return QuestionAllocationDocument(

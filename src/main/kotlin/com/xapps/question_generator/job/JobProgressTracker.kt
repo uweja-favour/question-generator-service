@@ -1,26 +1,7 @@
 package com.xapps.question_generator.job
 
-import com.xapps.platform.core.outcome.onFailure
-import com.xapps.platform.core.outcome.outcomeOf
 import com.xapps.question_generator.job.domain.model.QuestionCreationJob
-import com.xapps.question_generator.job.service.QuestionCreationJobService
-import com.xapps.dto.IdHolder
 import com.xapps.dto.SseJobUpdateDto
-import com.xapps.dto.job.isFinal
-import com.xapps.questions.contracts.question_generation.JobId
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.isActive
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import org.slf4j.LoggerFactory
-import org.springframework.http.codec.ServerSentEvent
-import org.springframework.stereotype.Service
 
 private fun QuestionCreationJob.toSseDto(): SseJobUpdateDto =
     SseJobUpdateDto(

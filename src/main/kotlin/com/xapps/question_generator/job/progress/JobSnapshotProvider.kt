@@ -1,7 +1,7 @@
 package com.xapps.question_generator.job.progress
 
-import com.xapps.question_generator.job.service.QuestionCreationJobService
-import com.xapps.questions.contracts.question_generation.JobId
+import com.xapps.question_generation.JobId
+import com.xapps.question_generator.job.domain.repository.QuestionCreationJobRepository
 import org.springframework.stereotype.Service
 
 interface JobSnapshotProvider {
@@ -10,11 +10,11 @@ interface JobSnapshotProvider {
 
 @Service
 class QuizJobSnapshotProvider(
-    private val jobService: QuestionCreationJobService
+    private val jobRepository: QuestionCreationJobRepository
 ) : JobSnapshotProvider {
 
     override suspend fun load(jobIds: Set<JobId>): List<JobSnapshot> =
-        jobService.findAllByIds(jobIds.toList())
+        jobRepository.findAllByIds(jobIds.toList())
             .map {
                 JobSnapshot(
                     jobId = it.id,
