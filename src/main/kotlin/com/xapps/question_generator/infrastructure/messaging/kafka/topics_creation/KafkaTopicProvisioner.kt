@@ -31,6 +31,8 @@ class KafkaTopicProvisioner(
         KafkaTopics.Quiz.CLASSROOM_PAYLOAD,
         KafkaTopics.Quiz.CLASSROOM_STATE_CHANGED,
 
+        KafkaTopics.NoteSummary.REQUESTED,
+        KafkaTopics.NoteSummary.GENERATED,
         KafkaTopics.NoteSummary.PAYLOAD,
 
         KafkaTopics.User.ONLINE,
